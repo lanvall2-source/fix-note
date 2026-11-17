@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+    letter-spacing: -0.02em;
+    line-height: 1.5;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    background-color: #020617;
+  }
+
+  /* 입력창 등은 텍스트 선택 가능 */
+  input, textarea {
+    user-select: text;
+  }
+}
+
+/* 스크롤바 숨기기 유틸리티 */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* 모바일 아이폰 하단 홈 바 안전 여백 */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 12px);
+}

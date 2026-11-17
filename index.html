@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    
+    <!-- Primary Meta Tags -->
+    <title>고정비노트 (FixNote) - 숨은 고정비 & 구독·통신·관리비·보험·대출 통합 관리</title>
+    <meta name="title" content="고정비노트 (FixNote) - 숨은 고정비 & 구독·통신·관리비·보험·대출 통합 관리" />
+    <meta name="description" content="숨만 쉬어도 매달 나가는 내 돈 얼마인지 아시나요? OTT 구독부터 통신비, 아파트 관리비, 실비보험, 자동차 렌트/할부, 주택담보대출까지 로그인 없이 10초 만에 정리하는 스마트 고정비 다이어트 앱." />
+    <meta name="keywords" content="고정비, 고정비관리, 구독관리, 아파트관리비, 통신비절약, 알뜰폰비교, 대출이자계산, 자동차리스, 실손보험, 생활비달력, PWA, 픽스노트, FixNote" />
+    <meta name="author" content="FixNote Team" />
+    <meta name="theme-color" content="#020617" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="고정비노트" />
+
+    <!-- Open Graph / Facebook / Kakao -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="고정비노트 (FixNote) - 숨은 고정 지출 & 구독 통합 관리" />
+    <meta property="og:description" content="매달 숨만 쉬어도 빠져나가는 150~250만 원의 고정비, 한눈에 파악하고 알뜰폰/대출 금리 인하로 1년에 100만 원 이상 절약하세요!" />
+    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:locale" content="ko_KR" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content="고정비노트 (FixNote) - 스마트 고정비 관리 & 다이어트" />
+    <meta property="twitter:description" content="로그인/본인인증 없이 내 폰에만 안전 저장되는 초경량 고정비·구독 관리기" />
+
+    <!-- PWA Web App Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" href="/icon.svg" />
+
+    <!-- Pretendard Web Font CDN -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "고정비노트 (FixNote)",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "All",
+      "description": "구독 서비스, 통신비, 아파트 관리비, 실비보험, 자동차 렌트/리스, 주택담보대출 이자를 통합 관리하는 스마트 고정비 PWA 앱",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "KRW"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "고정비노트는 금융 인증서나 회원가입이 필요한가요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "아닙니다. 고정비노트는 로그인이나 은행 공인인증서 연동 없이 100% 브라우저(LocalStorage)에만 안전하게 보관되어 개인정보 유출 걱정 없이 안심하고 사용할 수 있습니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "어떤 고정비 항목들을 관리할 수 있나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "넷플릭스, 유튜브 등 디지털 구독은 물론 휴대폰/인터넷 통신비, 아파트/빌라 관리비, 전기/가스 공과금, 실손/암보험, 자동차 렌트/리스/할부금, 주택담보대출/전세대출 등 가계의 모든 고정 지출을 통합 관리할 수 있습니다."
+          }
+        }
+      ]
+    }
+    </script>
+  </head>
+  <body class="bg-slate-950 text-slate-100 min-h-screen">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

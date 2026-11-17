@@ -1,0 +1,19 @@
+{
+  "name": "고정비노트 (FixNote)",
+  "short_name": "고정비노트",
+  "description": "구독·통신·관리비·보험·차량·대출 통합 고정비 관리기",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#020617",
+  "orientation": "portrait",
+  "lang": "ko-KR",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
