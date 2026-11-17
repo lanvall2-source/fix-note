@@ -2,6 +2,7 @@ import { ExpenseItem, UserSettings } from '../types';
 
 const STORAGE_KEY_ITEMS = 'fixnote_items_v1';
 const STORAGE_KEY_SETTINGS = 'fixnote_settings_v1';
+const STORAGE_KEY_HAS_VISITED = 'fixnote_visited_v1';
 
 export const INITIAL_DEMO_ITEMS: ExpenseItem[] = [
   {
@@ -52,7 +53,7 @@ export const INITIAL_DEMO_ITEMS: ExpenseItem[] = [
     payDay: 25,
     paymentMethod: 'KB국민카드 자동이체',
     isActive: true,
-    memo: '25% 선택약정 할인 적용 중 (약정 만료일 확인 필요)',
+    memo: '25% 선택약정 할인 적용 중',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   },
@@ -156,19 +157,30 @@ export const DEFAULT_SETTINGS: UserSettings = {
   currency: 'KRW'
 };
 
+/**
+ * 저장된 데이터 로드 (첫 접속 시 사용자가 놀라지 않도록 빈 배열로 시작)
+ */
 export function loadExpenseItems(): ExpenseItem[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY_ITEMS);
     if (!raw) {
-      // 최초 실행 시 데모 데이터 주입
-      saveExpenseItems(INITIAL_DEMO_ITEMS);
-      return INITIAL_DEMO_ITEMS;
+      // 신규 접속자: 빈 배열로 시작하여 본인 데이터 입력을 자연스럽게 유도
+      localStorage.setItem(STORAGE_KEY_ITEMS, JSON.stringify([]));
+      return [];
     }
     return JSON.parse(raw);
   } catch (err) {
     console.error('Failed to load expense items from localStorage', err);
-    return INITIAL_DEMO_ITEMS;
+    return [];
   }
+}
+
+/**
+ * 현재 아이템 목록이 예시 데이터인지 여부 판별
+ */
+export function checkIsDemoData(items: ExpenseItem[]): boolean {
+  if (items.length === 0) return false;
+  return items.some(item => item.id.startsWith('demo-'));
 }
 
 export function saveExpenseItems(items: ExpenseItem[]): void {

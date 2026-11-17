@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { ExpenseItem, CategoryType, PresetItem, UserSettings } from './types';
-import { loadExpenseItems, saveExpenseItems, loadUserSettings, saveUserSettings } from './utils/storage';
+import { 
+  loadExpenseItems, saveExpenseItems, loadUserSettings, saveUserSettings, 
+  checkIsDemoData, INITIAL_DEMO_ITEMS 
+} from './utils/storage';
 import { Header } from './components/Header';
 import { BottomNav, NavTab } from './components/BottomNav';
 import { DashboardView } from './components/DashboardView';
@@ -11,6 +14,8 @@ import { ExpenseModal } from './components/ExpenseModal';
 import { SettingsModal } from './components/SettingsModal';
 import { PwaInstallModal } from './components/PwaInstallModal';
 import { CancelGuideModal } from './components/CancelGuideModal';
+import { DemoBanner } from './components/DemoBanner';
+import { OnboardingEmptyState } from './components/OnboardingEmptyState';
 
 export function App() {
   const [items, setItems] = useState<ExpenseItem[]>(() => loadExpenseItems());
@@ -27,6 +32,9 @@ export function App() {
   const [isCancelGuideOpen, setIsCancelGuideOpen] = useState(false);
   const [cancelGuideServiceId, setCancelGuideServiceId] = useState<string | undefined>(undefined);
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+
+  // 현재 데이터가 데모(체험) 데이터인지 여부
+  const isDemo = checkIsDemoData(items);
 
   // 로컬 스토리지 자동 저장
   useEffect(() => {
@@ -117,6 +125,16 @@ export function App() {
     setSettings(newSettings);
   };
 
+  // 예시 데이터 모두 지우기
+  const handleClearAll = () => {
+    setItems([]);
+  };
+
+  // 예시 데이터 불러오기
+  const handleLoadDemoData = () => {
+    setItems(INITIAL_DEMO_ITEMS);
+  };
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans antialiased selection:bg-emerald-500 selection:text-slate-950">
       
@@ -128,27 +146,64 @@ export function App() {
         itemCount={items.length}
       />
 
+      {/* 예시 데이터 둘러보기 모드일 때 최상단 안내 배너 */}
+      {isDemo && (
+        <DemoBanner
+          onClearDemoData={handleClearAll}
+          onOpenAddModal={handleOpenAdd}
+        />
+      )}
+
       {/* 메인 컨텐츠 영역 */}
       <main className="flex-1 max-w-xl w-full mx-auto px-4 pt-4 pb-24">
         {currentTab === 'dashboard' && (
-          <DashboardView
-            items={items}
-            settings={settings}
-            onOpenAddModalWithPreset={handleOpenAddWithPreset}
-            onOpenAddModal={handleOpenAdd}
-            onSelectCategoryFilter={handleSelectCategoryFilterFromDashboard}
-            onGoToDietTab={() => setCurrentTab('diet')}
-            onEditItem={handleOpenEdit}
-            onOpenCancelGuide={handleOpenCancelGuide}
-          />
+          items.length === 0 ? (
+            <OnboardingEmptyState
+              onOpenAddModal={handleOpenAdd}
+              onOpenAddWithPreset={handleOpenAddWithPreset}
+              onLoadDemoData={handleLoadDemoData}
+            />
+          ) : (
+            <DashboardView
+              items={items}
+              settings={settings}
+              onOpenAddModalWithPreset={handleOpenAddWithPreset}
+              onOpenAddModal={handleOpenAdd}
+              onSelectCategoryFilter={handleSelectCategoryFilterFromDashboard}
+              onGoToDietTab={() => setCurrentTab('diet')}
+              onEditItem={handleOpenEdit}
+              onOpenCancelGuide={handleOpenCancelGuide}
+            />
+          )
         )}
 
         {currentTab === 'calendar' && (
-          <CalendarTimelineView
-            items={items}
-            settings={settings}
-            onEditItem={handleOpenEdit}
-          />
+          items.length === 0 ? (
+            <div className="py-16 text-center space-y-3 bg-slate-900/60 rounded-3xl p-6 border border-slate-800">
+              <p className="text-sm font-bold text-slate-200">등록된 고정비 일정이 없습니다.</p>
+              <p className="text-xs text-slate-400">내 고정비를 등록하면 결제일 달력에 자동으로 표시됩니다.</p>
+              <div className="pt-2 flex justify-center gap-2">
+                <button
+                  onClick={handleOpenAdd}
+                  className="bg-emerald-500 text-slate-950 font-bold text-xs px-4 py-2.5 rounded-xl shadow-md"
+                >
+                  고정비 등록하기
+                </button>
+                <button
+                  onClick={handleLoadDemoData}
+                  className="bg-slate-800 text-slate-300 hover:text-white font-medium text-xs px-3.5 py-2.5 rounded-xl border border-slate-700"
+                >
+                  예시로 체험하기
+                </button>
+              </div>
+            </div>
+          ) : (
+            <CalendarTimelineView
+              items={items}
+              settings={settings}
+              onEditItem={handleOpenEdit}
+            />
+          )
         )}
 
         {currentTab === 'diet' && (
@@ -199,6 +254,7 @@ export function App() {
         items={items}
         onSaveSettings={setSettings}
         onRestoreData={handleRestoreData}
+        onClearAll={handleClearAll}
       />
 
       {/* PWA 홈 화면 추가 모달 */}

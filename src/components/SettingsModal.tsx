@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { UserSettings, ExpenseItem } from '../types';
 import { exportDataAsJson, importDataFromJson, INITIAL_DEMO_ITEMS } from '../utils/storage';
-import { X, Download, Upload, RotateCcw, ShieldCheck, Check, DollarSign } from 'lucide-react';
+import { X, Download, Upload, RotateCcw, ShieldCheck, Trash2, Check, DollarSign } from 'lucide-react';
 
 interface SettingsModalProps {
   isOpen: boolean;
@@ -10,6 +10,7 @@ interface SettingsModalProps {
   items: ExpenseItem[];
   onSaveSettings: (settings: UserSettings) => void;
   onRestoreData: (items: ExpenseItem[], settings: UserSettings) => void;
+  onClearAll: () => void;
 }
 
 export const SettingsModal: React.FC<SettingsModalProps> = ({
@@ -18,7 +19,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   settings,
   items,
   onSaveSettings,
-  onRestoreData
+  onRestoreData,
+  onClearAll
 }) => {
   const [salaryDay, setSalaryDay] = useState<number>(settings.salaryDay || 25);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -57,15 +59,23 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   };
 
   const handleResetDemo = () => {
-    if (confirm('기본 예시 데이터(11개 항목)로 복원하시겠습니까? 현재 입력된 내용은 덮어씌워집니다.')) {
+    if (confirm('예시 데이터(11개 항목)를 불러오시겠습니까? 현재 입력된 항목은 교체됩니다.')) {
       onRestoreData(INITIAL_DEMO_ITEMS, settings);
-      alert('예시 데이터로 복원되었습니다.');
+      alert('예시 데이터가 로드되었습니다.');
+      onClose();
+    }
+  };
+
+  const handleClearAll = () => {
+    if (confirm('모든 고정비 데이터를 삭제하고 빈 상태로 초기화하시겠습니까?')) {
+      onClearAll();
+      alert('모든 데이터가 깨끗하게 삭제되었습니다.');
       onClose();
     }
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-950/80 backdrop-blur-sm animate-fade-in">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-950/80 backdrop-blur-sm animate-fade-in break-keep">
       <div className="w-full sm:max-w-md bg-slate-900 border border-slate-800 rounded-t-3xl sm:rounded-2xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden text-slate-100">
         
         {/* 헤더 */}
@@ -80,10 +90,10 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
         </div>
 
         {/* 본문 */}
-        <div className="p-5 overflow-y-auto space-y-5">
+        <div className="p-5 overflow-y-auto space-y-4">
           
           {/* 1. 급여일 설정 */}
-          <div className="bg-slate-800/60 p-4 rounded-xl border border-slate-700/60 space-y-3">
+          <div className="bg-slate-800/60 p-4 rounded-xl border border-slate-700/60 space-y-2.5">
             <span className="text-xs font-bold text-slate-200 block">
               내 급여일 설정 (캘린더 연동)
             </span>
@@ -112,7 +122,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
           </div>
 
           {/* 2. 데이터 백업 및 복원 */}
-          <div className="bg-slate-800/60 p-4 rounded-xl border border-slate-700/60 space-y-3">
+          <div className="bg-slate-800/60 p-4 rounded-xl border border-slate-700/60 space-y-2.5">
             <span className="text-xs font-bold text-slate-200 block">
               데이터 백업 및 기기 변경
             </span>
@@ -148,15 +158,24 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             </div>
           </div>
 
-          {/* 3. 예시 데이터 초기화 */}
-          <div className="pt-1">
+          {/* 3. 데이터 초기화 및 예시 데이터 로드 옵션 */}
+          <div className="space-y-2 pt-1">
+            <button
+              type="button"
+              onClick={handleClearAll}
+              className="w-full flex items-center justify-center gap-1.5 py-2.5 text-xs text-rose-300 hover:text-rose-200 bg-rose-950/40 hover:bg-rose-950/60 rounded-xl border border-rose-800/50 transition-colors font-medium"
+            >
+              <Trash2 className="w-3.5 h-3.5" />
+              <span>모든 데이터 지우기 (빈 상태로 초기화)</span>
+            </button>
+
             <button
               type="button"
               onClick={handleResetDemo}
               className="w-full flex items-center justify-center gap-1.5 py-2.5 text-xs text-slate-400 hover:text-slate-200 bg-slate-800/40 hover:bg-slate-800 rounded-xl border border-slate-700/40 transition-colors"
             >
               <RotateCcw className="w-3.5 h-3.5" />
-              <span>기본 예시 데이터(11개 항목) 다시 불러오기</span>
+              <span>예시 데이터(11개 항목) 다시 불러오기</span>
             </button>
           </div>
 
