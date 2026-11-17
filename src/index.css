@@ -1,17 +1,23 @@
 @import "tailwindcss";
 
 @layer base {
+  * {
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
   body {
     font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
     letter-spacing: -0.02em;
     line-height: 1.5;
     -webkit-tap-highlight-color: transparent;
     user-select: none;
-    background-color: #020617;
+    background-color: #030712;
+    color: #f3f4f6;
   }
 
-  /* 입력창 등은 텍스트 선택 가능 */
-  input, textarea {
+  /* 폼 요소는 텍스트 선택 가능 */
+  input, textarea, select {
     user-select: text;
   }
 }
@@ -27,5 +33,5 @@
 
 /* 모바일 아이폰 하단 홈 바 안전 여백 */
 .pb-safe {
-  padding-bottom: env(safe-area-inset-bottom, 12px);
+  padding-bottom: env(safe-area-inset-bottom, 14px);
 }

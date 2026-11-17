@@ -10,6 +10,7 @@ import { ItemsListView } from './components/ItemsListView';
 import { ExpenseModal } from './components/ExpenseModal';
 import { SettingsModal } from './components/SettingsModal';
 import { PwaInstallModal } from './components/PwaInstallModal';
+import { CancelGuideModal } from './components/CancelGuideModal';
 
 export function App() {
   const [items, setItems] = useState<ExpenseItem[]>(() => loadExpenseItems());
@@ -23,6 +24,8 @@ export function App() {
   const [presetForModal, setPresetForModal] = useState<PresetItem | null>(null);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isPwaModalOpen, setIsPwaModalOpen] = useState(false);
+  const [isCancelGuideOpen, setIsCancelGuideOpen] = useState(false);
+  const [cancelGuideServiceId, setCancelGuideServiceId] = useState<string | undefined>(undefined);
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
 
   // 로컬 스토리지 자동 저장
@@ -96,6 +99,12 @@ export function App() {
     setIsExpenseModalOpen(true);
   };
 
+  // 해지 가이드 열기
+  const handleOpenCancelGuide = (serviceId?: string) => {
+    setCancelGuideServiceId(serviceId);
+    setIsCancelGuideOpen(true);
+  };
+
   // 대시보드에서 카테고리 클릭 시 목록 탭으로 이동 & 필터 적용
   const handleSelectCategoryFilterFromDashboard = (cat: CategoryType) => {
     setSelectedCategoryFilter(cat);
@@ -130,6 +139,7 @@ export function App() {
             onSelectCategoryFilter={handleSelectCategoryFilterFromDashboard}
             onGoToDietTab={() => setCurrentTab('diet')}
             onEditItem={handleOpenEdit}
+            onOpenCancelGuide={handleOpenCancelGuide}
           />
         )}
 
@@ -144,6 +154,7 @@ export function App() {
         {currentTab === 'diet' && (
           <DietSavingsView
             items={items}
+            onOpenCancelGuide={handleOpenCancelGuide}
           />
         )}
 
@@ -195,6 +206,13 @@ export function App() {
         isOpen={isPwaModalOpen}
         onClose={() => setIsPwaModalOpen(false)}
         deferredPrompt={deferredPrompt}
+      />
+
+      {/* 구독 해지 1분 가이드 모달 */}
+      <CancelGuideModal
+        isOpen={isCancelGuideOpen}
+        onClose={() => setIsCancelGuideOpen(false)}
+        initialServiceId={cancelGuideServiceId}
       />
 
     </div>
