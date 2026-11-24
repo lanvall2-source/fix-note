@@ -1,0 +1,75 @@
+name: Build Toss AIT Bundle
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Web Application
+        run: |
+          npm run build
+          echo "Checking dist directory:"
+          ls -la dist/
+
+      - name: Build Official Toss AIT Bundle
+        run: |
+          npm install --no-save @apps-in-toss/cli @apps-in-toss/ait-format @apps-in-toss/ait-format-proto uuidv7
+          echo "Running official npx ait build..."
+          if npx ait build; then
+            echo "Successfully built with official ait build!"
+          else
+            echo "ait build returned non-zero, checking if ait bundle was generated..."
+          fi
+          
+          # Check for generated .ait file in all possible locations
+          if [ -f "fixnote.ait" ]; then
+            echo "Found fixnote.ait in root."
+          elif ls *.ait 1> /dev/null 2>&1; then
+            AIT_FILE=$(ls *.ait | head -n 1)
+            echo "Found $AIT_FILE, copying to fixnote.ait..."
+            cp "$AIT_FILE" fixnote.ait
+          elif ls .ait/*.ait 1> /dev/null 2>&1; then
+            AIT_FILE=$(ls .ait/*.ait | head -n 1)
+            echo "Found $AIT_FILE in .ait/, copying to fixnote.ait..."
+            cp "$AIT_FILE" fixnote.ait
+          else
+            echo "Error: ait file not found!"
+            exit 1
+          fi
+          ls -lh fixnote.ait
+
+      - name: Upload AIT Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: fixnote-ait
+          path: fixnote.ait
+          if-no-files-found: error
+
+      - name: Publish Toss Bundle Release
+        uses: softprops/action-gh-release@v2
+        if: github.ref == 'refs/heads/main'
+        with:
+          tag_name: v1.0.0-toss
+          name: "고정비노트 토스 미니앱 번들 (fixnote.ait)"
+          body: "앱인토스 공식 AIT 규격 및 deploymentId가 포함된 고정비노트 번들 파일입니다."
+          files: fixnote.ait
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

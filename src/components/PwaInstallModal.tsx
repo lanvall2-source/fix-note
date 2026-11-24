@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, Smartphone, Share2, PlusSquare, CheckCircle, Sparkles } from 'lucide-react';
+import { isTossApp } from '../utils/env';
 
 interface PwaInstallModalProps {
   isOpen: boolean;
@@ -16,6 +17,7 @@ export const PwaInstallModal: React.FC<PwaInstallModalProps> = ({
   const [isStandalone, setIsStandalone] = useState(false);
 
   useEffect(() => {
+    if (isTossApp()) return;
     // iOS 기기 감지
     const userAgent = window.navigator.userAgent.toLowerCase();
     const isIosDevice = /iphone|ipad|ipod/.test(userAgent);
@@ -26,7 +28,7 @@ export const PwaInstallModal: React.FC<PwaInstallModalProps> = ({
     setIsStandalone(Boolean(standalone));
   }, []);
 
-  if (!isOpen) return null;
+  if (!isOpen || isTossApp()) return null;
 
   const handleNativeInstall = async () => {
     if (deferredPrompt) {

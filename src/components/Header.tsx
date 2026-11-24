@@ -1,5 +1,6 @@
 import React from 'react';
 import { Plus, Settings, Sparkles, Smartphone } from 'lucide-react';
+import { isTossApp } from '../utils/env';
 
 interface HeaderProps {
   onOpenAddModal: () => void;
@@ -39,15 +40,17 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* 우측 액션 버튼들 */}
         <div className="flex items-center gap-2">
-          {/* 홈 화면 추가 버튼 */}
-          <button
-            onClick={onOpenPwaModal}
-            aria-label="앱 설치"
-            className="flex items-center gap-1 text-xs bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 px-2.5 py-1.5 rounded-lg border border-slate-700 transition-all"
-          >
-            <Smartphone className="w-3.5 h-3.5 text-emerald-400" />
-            <span className="hidden sm:inline font-medium">앱 설치</span>
-          </button>
+          {/* 웹 전용 홈 화면 추가 버튼 (토스 인앱에서는 숨김) */}
+          {!isTossApp() && (
+            <button
+              onClick={onOpenPwaModal}
+              aria-label="앱 설치"
+              className="flex items-center gap-1 text-xs bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 px-2.5 py-1.5 rounded-lg border border-slate-700 transition-all"
+            >
+              <Smartphone className="w-3.5 h-3.5 text-emerald-400" />
+              <span className="hidden sm:inline font-medium">앱 설치</span>
+            </button>
+          )}
 
           {/* 환경설정 버튼 */}
           <button
