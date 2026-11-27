@@ -1,11 +1,12 @@
 import React from 'react';
-import { Plus, Settings, Sparkles, Smartphone } from 'lucide-react';
+import { Plus, Settings, Sparkles, Smartphone, HelpCircle } from 'lucide-react';
 import { isTossApp } from '../utils/env';
 
 interface HeaderProps {
   onOpenAddModal: () => void;
   onOpenSettingsModal: () => void;
   onOpenPwaModal: () => void;
+  onOpenHelpModal?: () => void;
   itemCount: number;
 }
 
@@ -13,6 +14,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenAddModal,
   onOpenSettingsModal,
   onOpenPwaModal,
+  onOpenHelpModal,
   itemCount
 }) => {
   return (
@@ -49,6 +51,19 @@ export const Header: React.FC<HeaderProps> = ({
             >
               <Smartphone className="w-3.5 h-3.5 text-emerald-400" />
               <span className="hidden sm:inline font-medium">앱 설치</span>
+            </button>
+          )}
+
+          {/* 1분 퀵 도움말 버튼 */}
+          {onOpenHelpModal && (
+            <button
+              onClick={onOpenHelpModal}
+              aria-label="1분 퀵 도움말"
+              title="1분 퀵 도움말"
+              className="flex items-center gap-1 text-xs bg-slate-800 hover:bg-slate-700 active:scale-95 text-emerald-400 px-2 py-1.5 rounded-lg border border-slate-700 transition-all cursor-pointer"
+            >
+              <HelpCircle className="w-3.5 h-3.5 text-emerald-400" />
+              <span className="hidden sm:inline font-medium text-slate-200">도움말</span>
             </button>
           )}
 

@@ -5,7 +5,7 @@ import { detectSubscriptionOverlaps } from '../utils/overlapDetector';
 import { 
   TrendingDown, Smartphone, Landmark, ShieldCheck, 
   ExternalLink, Sparkles, CheckCircle2, ChevronRight, Calculator,
-  AlertTriangle, ArrowRight, Gift, LogOut, Info
+  AlertTriangle, ArrowRight, Gift, LogOut, Info, Lightbulb
 } from 'lucide-react';
 
 interface DietSavingsViewProps {
@@ -48,9 +48,7 @@ export const DietSavingsView: React.FC<DietSavingsViewProps> = ({
     <div className="space-y-5 pb-6 break-keep">
       
       {/* 1. 상단 총 절약 가능액 히어로 카드 */}
-      <div className="rounded-2xl bg-gradient-to-br from-emerald-950 via-slate-900 to-teal-950 p-5 border border-emerald-500/40 shadow-xl shadow-slate-950/40 text-white relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-36 h-36 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none" />
-        
+      <div className="rounded-2xl bg-gradient-to-br from-emerald-950 via-slate-900 to-teal-950 p-5 border border-emerald-500/40 shadow-xl shadow-slate-950/40 text-white relative">
         <div className="relative z-10">
           <div className="flex items-center gap-1.5 text-emerald-400 text-xs font-bold mb-1">
             <Sparkles className="w-4 h-4" />
@@ -268,8 +266,11 @@ export const DietSavingsView: React.FC<DietSavingsViewProps> = ({
           </div>
         </div>
 
-        <div className="text-[11px] text-slate-400 leading-relaxed bg-slate-800/30 p-2.5 rounded-xl border border-slate-800">
-          💡 <strong>대환대출 인프라 팁</strong>: 토스, 카카오페이, 핀다 등 금융 앱에서 본인 신용점수 하락 없이 1분 만에 여러 금융사의 갈아타기 금리를 비교할 수 있습니다.
+        <div className="text-[11px] text-slate-300 leading-relaxed bg-slate-800/40 p-2.5 rounded-xl border border-slate-700/60 flex items-start gap-2">
+          <Lightbulb className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+          <span>
+            <strong>대환대출 인프라 팁</strong>: 토스, 카카오페이, 핀다 등 금융 앱에서 본인 신용점수 하락 없이 1분 만에 여러 금융사의 갈아타기 금리를 비교할 수 있습니다.
+          </span>
         </div>
       </div>
 

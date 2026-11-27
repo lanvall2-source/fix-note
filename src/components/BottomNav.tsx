@@ -1,7 +1,7 @@
 import React from 'react';
-import { LayoutDashboard, CalendarDays, TrendingDown, ListTodo, Plus } from 'lucide-react';
+import { LayoutDashboard, CalendarDays, TrendingDown, ListTodo, Plus, HelpCircle } from 'lucide-react';
 
-export type NavTab = 'dashboard' | 'calendar' | 'diet' | 'items';
+export type NavTab = 'dashboard' | 'calendar' | 'diet' | 'items' | 'guide';
 
 interface BottomNavProps {
   currentTab: NavTab;

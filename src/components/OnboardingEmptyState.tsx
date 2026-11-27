@@ -19,9 +19,7 @@ export const OnboardingEmptyState: React.FC<OnboardingEmptyStateProps> = ({
     <div className="space-y-6 py-4 break-keep">
       
       {/* 1. 환영 히어로 카드 */}
-      <div className="rounded-3xl bg-gradient-to-br from-slate-900 via-slate-850 to-indigo-950 p-6 sm:p-8 border border-slate-700/60 shadow-2xl text-center relative overflow-hidden">
-        <div className="absolute -top-12 -right-12 w-48 h-48 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none" />
-        
+      <div className="rounded-2xl bg-slate-900 p-6 sm:p-8 border border-slate-800 shadow-2xl text-center relative">
         <div className="relative z-10 max-w-md mx-auto space-y-3">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold">
             <Sparkles className="w-3.5 h-3.5" />

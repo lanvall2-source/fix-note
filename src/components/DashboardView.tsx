@@ -64,10 +64,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
     <div className="space-y-4 sm:space-y-5 pb-6 break-keep">
       
       {/* 1. 메인 고정비 지출 요약 카드 */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 p-4 sm:p-5 border border-slate-700/60 shadow-xl text-white">
-        <div className="absolute -top-12 -right-12 w-44 h-44 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-10 -left-10 w-44 h-44 rounded-full bg-indigo-500/15 blur-3xl pointer-events-none" />
-
+      <div className="rounded-2xl bg-slate-900 p-4 sm:p-5 border border-slate-800 shadow-xl text-white relative">
         <div className="relative z-10">
           <div className="flex items-center justify-between text-slate-400 text-xs font-medium mb-1.5">
             <span className="flex items-center gap-1.5 whitespace-nowrap">
